@@ -35,6 +35,7 @@ export default defineNuxtConfig({
         '@nuxt/fonts',
         '@nuxt/hints',
         '@nuxt/image',
-        '@nuxt/ui'
+        '@nuxt/ui',
+        'nuxt-auth-utils'
     ]
 })

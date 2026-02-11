@@ -44,3 +44,13 @@ export { Prisma }
  * 
  */
 export type SiteReview = Prisma.SiteReviewModel
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel

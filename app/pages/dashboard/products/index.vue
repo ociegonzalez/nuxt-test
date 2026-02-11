@@ -10,21 +10,22 @@
           Gestiona y organiza tu catálogo de productos
         </p>
       </div>
-      <UButton
-          icon="i-lucide-plus"
-          label="Agregar Producto"
-          color="primary"
-          size="lg"
-      />
+      <UButton icon="i-lucide-plus" label="Agregar Producto" color="primary" size="lg" />
     </div>
 
-    <UTable :data="data" :columns="columns" class="flex-1" />
+    <UTable :data="productos" :columns="columns" class="flex-1" />
+
+    <SharedPagination :total="total" :model-value="currentPage" :per-page="perPage" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { h, resolveComponent } from 'vue';
 import type { TableColumn } from '@nuxt/ui';
+import { FormatCurrency } from '~~/shared/util/format-currency';
+import { dayMonthYearFormat } from '~~/shared/util/day-formater';
+
+const { productos, currentPage, total, perPage } = await usePaginatedProducts()
 
 const UBadge = resolveComponent('UBadge');
 
@@ -80,51 +81,74 @@ const columns: TableColumn<Payment>[] = [
     header: '#',
     cell: ({ row }) => `#${row.getValue('id')}`,
   },
+
   {
-    accessorKey: 'date',
-    header: 'Date',
+    accessorKey: 'images',
+    header: 'Imagen',
     cell: ({ row }) => {
-      return new Date(row.getValue('date')).toLocaleString('es-MX', {
-        day: 'numeric',
-        month: 'short',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      });
+      const images = row.getValue('images') as string[];
+      const url = Array.isArray(images) && images.length > 0 ? images[0] : '';
+
+      if (!url) return h('span', {
+        class: 'text-gray-500'
+      }, 'Sin Imagen')
+
+      return h('img', {
+        src: url,
+        alt: 'Imagen del producto',
+        style: 'width: 48px; height: 48px; object-fit: cover; border-radius: 0.5rem'
+      })
     },
   },
   {
-    accessorKey: 'status',
-    header: 'Status',
+    accessorKey: 'name',
+    header: 'Nombre',
+    cell: ({ row }) => (row.getValue('name')),
+  },
+  {
+    accessorKey: 'description',
+    header: 'Descripccion',
     cell: ({ row }) => {
-      const color = {
-        paid: 'success' as const,
-        failed: 'error' as const,
-        refunded: 'neutral' as const,
-      }[row.getValue('status') as string];
-
-      return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () =>
-          row.getValue('status')
-      );
+      return h('div', {
+        style: 'white-space: normal; word-break: break-word; max-width: 300px',
+        class: 'truncate-text'
+      },
+        String(row.getValue('description')).slice(0, 50) + '...'
+      )
     },
   },
   {
-    accessorKey: 'email',
-    header: 'Email',
+    accessorKey: 'price',
+    header: 'Precio',
+    cell: ({ row }) => (FormatCurrency(row.getValue('price')))
   },
   {
-    accessorKey: 'amount',
-    header: () => h('div', { class: 'text-right' }, 'Amount'),
+    accessorKey: 'tags',
+    header: 'Etiquetas',
     cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue('amount'));
+      const tags = row.getValue('tags') as string[];
+      if (!Array.isArray(tags)) return ''
 
-      const formatted = new Intl.NumberFormat('es-MX', {
-        style: 'currency',
-        currency: 'MXN',
-      }).format(amount);
+      return h('div', {
+        class: 'flex flex-wrap gap-1'
+      },
+        tags.map((tag) => h(UBadge, {
+          size: 'xs',
+          color: 'primary',
+          variant: 'subtle',
+          class: 'mr-0.5'
+        }, () => tag))
+      )
+    }
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Creado',
+    cell: ({ row }) => {
+      const value = row.getValue('createdAt')
 
-      return h('div', { class: 'text-right font-medium' }, formatted);
-    },
+      return value ? dayMonthYearFormat(new Date(value as string)) : ''
+    }
   },
 ];
 </script>
