@@ -30,12 +30,12 @@ export default defineNuxtConfig({
         }
     },
     modules: [
-        '@nuxt/eslint',
-        '@nuxt/icon',
-        '@nuxt/fonts',
-        '@nuxt/hints',
-        '@nuxt/image',
-        '@nuxt/ui',
-        'nuxt-auth-utils'
+      '@nuxt/eslint',
+      '@nuxt/icon',
+      '@nuxt/fonts',
+      '@nuxt/hints',
+      '@nuxt/image',
+      '@nuxt/ui',
+      'nuxt-auth-utils'
     ]
 })

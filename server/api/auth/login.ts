@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import { useFetch } from "nuxt/app";
 import { z } from "zod";
 
 const bodySchema = z.object({

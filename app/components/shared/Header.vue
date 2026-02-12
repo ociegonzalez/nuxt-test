@@ -83,7 +83,7 @@ const responsiveMenu = ref([
 
       <ClientOnly>
         <UButton
-          v-if="!isLoggedIn"
+          
           color="primary"
           variant="solid"
           icon="i-heroicons-user-circle"
@@ -91,7 +91,7 @@ const responsiveMenu = ref([
           label="Login"
         />
         <UButton
-          v-else
+          
           variant="ghost"
           icon="i-heroicons-user-circle"
           label="Logout"
