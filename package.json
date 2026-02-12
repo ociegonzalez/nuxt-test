@@ -29,6 +29,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@iconify-json/simple-icons": "^1.2.70",
     "@types/pg": "^8.16.0",
     "dotenv": "^17.2.4",
     "prisma": "^7.3.0",

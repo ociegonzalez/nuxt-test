@@ -2,7 +2,7 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 
 const route = useRoute();
-const { isLoggedIn, logout } = useAuthentication();
+const { isLoggedIn, logout, isAdmin } = useAuthentication();
 
 const items = computed<NavigationMenuItem[]>(() => [
   {
@@ -29,6 +29,7 @@ const items = computed<NavigationMenuItem[]>(() => [
     to: "/contact",
     active: route.path.startsWith("/contact"),
   },
+  
 ]);
 
 const responsiveMenu = ref([
@@ -56,7 +57,7 @@ const responsiveMenu = ref([
 
     <UNavigationMenu :items="items" />
 
-    <!-- <ClientOnly>
+    <ClientOnly v-if="isAdmin">
       <UNavigationMenu
         :items="[
           {
@@ -65,7 +66,7 @@ const responsiveMenu = ref([
           },
         ]"
       />
-    </ClientOnly> -->
+    </ClientOnly>
 
     <template #right>
       <UColorModeButton />
@@ -83,7 +84,7 @@ const responsiveMenu = ref([
 
       <ClientOnly>
         <UButton
-          
+          v-if="!isLoggedIn"
           color="primary"
           variant="solid"
           icon="i-heroicons-user-circle"
@@ -91,7 +92,7 @@ const responsiveMenu = ref([
           label="Login"
         />
         <UButton
-          
+          v-else
           variant="ghost"
           icon="i-heroicons-user-circle"
           label="Logout"

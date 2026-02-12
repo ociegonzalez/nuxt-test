@@ -4,6 +4,7 @@ import type { FormSubmitEvent, AuthFormField } from "@nuxt/ui";
 
 definePageMeta({
   layout: "login-layout",
+  middleware: ['not-authenticated']
 });
 
 const toast = useToast();
@@ -24,7 +25,7 @@ const fields: AuthFormField[] = [
     label: "Email",
     placeholder: "Enter your email",
     required: true,
-    defaultValue: cookieLoginEmail.value ?? "",
+    defaultValue: cookieLoginEmail.value || "",
   },
   {
     name: "password",
@@ -37,7 +38,7 @@ const fields: AuthFormField[] = [
     name: "remember",
     label: "Remember me",
     type: "checkbox",
-    defaultValue: !!cookieLoginEmail.value,
+    defaultValue: Boolean(cookieLoginEmail.value),
   },
 ];
 

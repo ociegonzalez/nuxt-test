@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
       message: "Bad Credentials (email)",
     });
 
-  const userSeassion = {
+  const userSession = {
     id: user.id,
     name: user.name,
     email: user.email,
@@ -36,7 +36,9 @@ export default defineEventHandler(async (event) => {
 
   const isPasswordValid = bcrypt.compareSync(password, user.password);
 
-  await setUserSession(event, userSeassion);
+  await setUserSession(event, {
+    user: userSession
+  });
 
   if (!isPasswordValid)
     throw createError({
@@ -46,6 +48,6 @@ export default defineEventHandler(async (event) => {
 
   return {
     message: "Login Succesul",
-    user: userSeassion,
+    user: userSession,
   };
 });

@@ -1,72 +1,75 @@
 <script setup lang="ts">
-import type { NavigationMenuItem, CommandPaletteGroup, CommandPaletteItem } from '@nuxt/ui';
+import type {
+  NavigationMenuItem,
+  CommandPaletteGroup,
+  CommandPaletteItem,
+} from "@nuxt/ui";
 
-// https://ui.nuxt.com/docs/components/dashboard-sidebar
-
+const { user } = useAuthentication();
 
 const items: NavigationMenuItem[][] = [
   [
     {
-      label: 'Inicio',
-      icon: 'i-lucide-house',
-      to: '/dashboard',
+      label: "Inicio",
+      icon: "i-lucide-house",
+      to: "/dashboard",
       exact: true,
     },
     {
-      label: 'Productos',
-      icon: 'i-lucide-inbox',
-      badge: '4',
-      to: '/dashboard/products',
+      label: "Productos",
+      icon: "i-lucide-inbox",
+      badge: "4",
+      to: "/dashboard/products",
       exact: false,
     },
     {
-      label: 'Contacts',
-      icon: 'i-lucide-users',
+      label: "Contacts",
+      icon: "i-lucide-users",
     },
     {
-      label: 'Settings',
-      icon: 'i-lucide-settings',
+      label: "Settings",
+      icon: "i-lucide-settings",
       defaultOpen: true,
       children: [
         {
-          label: 'General',
+          label: "General",
         },
         {
-          label: 'Members',
+          label: "Members",
         },
         {
-          label: 'Notifications',
+          label: "Notifications",
         },
       ],
     },
   ],
   [
     {
-      label: 'Feedback',
-      icon: 'i-lucide-message-circle',
-      to: 'https://github.com/nuxt-ui-templates/dashboard',
-      target: '_blank',
+      label: "Feedback",
+      icon: "i-lucide-message-circle",
+      to: "https://github.com/nuxt-ui-templates/dashboard",
+      target: "_blank",
     },
     {
-      label: 'Help & Support',
-      icon: 'i-lucide-info',
-      to: 'https://github.com/nuxt/ui',
-      target: '_blank',
+      label: "Help & Support",
+      icon: "i-lucide-info",
+      to: "https://github.com/nuxt/ui",
+      target: "_blank",
     },
   ],
 ];
 
 const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
   {
-    label: 'Productos',
-    id: 'products',
-    highlightedIcon: 'i-lucide-box',
+    label: "Productos",
+    id: "products",
+    highlightedIcon: "i-lucide-box",
     items: [
       {
-        label: 'Nuevo Producto',
-        id: 'new-products',
-        icon: 'i-lucide-plus',
-        to: '/dashboard/products/new',
+        label: "Nuevo Producto",
+        id: "new-products",
+        icon: "i-lucide-plus",
+        to: "/dashboard/products/new",
       },
     ],
   },
@@ -75,18 +78,20 @@ const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
 
 <template>
   <UDashboardSidebar
-      collapsible
-      resizable
-      :ui="{ footer: 'border-t border-default' }"
+    collapsible
+    resizable
+    :ui="{ footer: 'border-t border-default' }"
   >
     <template #header="{ collapsed }" class="flex items-center gap-2">
-      <UDashboardSidebarCollapse variant="subtle"/>
-      <IconsNuxtui class="h-6 w-auto" v-if="!collapsed"/>
+      <NuxtLink to="/" class="flex flex-row items-center justify-center">
+        <UDashboardSidebarCollapse variant="subtle" class="mr-2" />
+        <IconsNuxtui class="h-6 w-auto" v-if="!collapsed" />
+      </NuxtLink>
     </template>
 
     <template #default="{ collapsed }">
-      <UDashboardSearchButton/>
-      <UDashboardSearch title="Buscar" :groups="searchGroups"/>
+      <UDashboardSearchButton />
+      <UDashboardSearch title="Buscar" :groups="searchGroups" />
       <!-- <UButton
         :label="collapsed ? undefined : 'Search...'"
         icon="i-lucide-search"
@@ -104,39 +109,39 @@ const searchGroups = ref<CommandPaletteGroup<CommandPaletteItem>[]>([
       </UButton> -->
 
       <UNavigationMenu
-          :collapsed="collapsed"
-          :items="items[0]"
-          orientation="vertical"
+        :collapsed="collapsed"
+        :items="items[0]"
+        orientation="vertical"
       />
 
       <UNavigationMenu
-          :collapsed="collapsed"
-          :items="items[1]"
-          orientation="vertical"
-          class="mt-auto"
+        :collapsed="collapsed"
+        :items="items[1]"
+        orientation="vertical"
+        class="mt-auto"
       />
 
       <div class="">
         <UDashboardSidebarCollapse
-            color="neutral"
-            variant="ghost"
-            square
-            class="w-full"
-            :title="collapsed ? 'Expandir' : 'Contraer'"
+          color="neutral"
+          variant="ghost"
+          square
+          class="w-full"
+          :title="collapsed ? 'Expandir' : 'Contraer'"
         />
       </div>
     </template>
 
     <template #footer="{ collapsed }">
       <UButton
-          :avatar="{
+        :avatar="{
           src: 'https://github.com/benjamincanac.png',
         }"
-          :label="collapsed ? undefined : 'Benjamin'"
-          color="neutral"
-          variant="ghost"
-          class="w-full"
-          :block="collapsed"
+        :label="collapsed ? undefined : user?.name"
+        color="neutral"
+        variant="ghost"
+        class="w-full"
+        :block="collapsed"
       />
     </template>
   </UDashboardSidebar>

@@ -3,14 +3,13 @@ export const useAuthentication = () => {
 
   const login = async (email: string, password: string) => {
     try {
-      console.log("Before loginn:", loggedIn.value);
+
       await $fetch("/api/auth/login", {
         method: "POST",
         body: { email, password },
       });
 
       await fetch();
-      console.log("After loginn:", loggedIn.value);
 
       navigateTo("/?message=Login Successful");
 
@@ -42,10 +41,7 @@ export const useAuthentication = () => {
   };
 
   const logout = async () => {
-    console.log("Before clear - loggedIn:", loggedIn.value);
     await clear();
-    console.log("After clear - loggedIn:", loggedIn.value);
-    console.log("Salir");
     navigateTo("/?message=Logout Successful");
   };
 
@@ -56,6 +52,7 @@ export const useAuthentication = () => {
 
     //getters
     isLoggedIn: loggedIn,
+    isAdmin: computed(() => user.value?.roles.includes('admin')),
 
     //actions
     fetch,
