@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { FormatCurrency } from '~~/shared/util/format-currency';
+import { FormatCurrency } from '~~/shared/utils/format-currency';
 
 
 const route = useRoute();
@@ -31,7 +31,7 @@ const totalPrice = computed(() => {
 </script>
 
 <template>
-    <div v-if="product" class="container mx-auto px-4 py-8">
+    <div v-if="product" class="mx-auto px-4 py-8 container">
         <!-- Breadcrumb -->
         <UBreadcrumb class="mb-8" :items="[
             { label: 'Productos', to: '/products' },
@@ -39,19 +39,19 @@ const totalPrice = computed(() => {
         ]" />
 
         <!-- Product Detail -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="gap-12 grid grid-cols-1 lg:grid-cols-2">
             <!-- Images Section -->
             <div class="space-y-4">
                 <!-- Main Image -->
-                <div class="rounded-lg overflow-hidden bg-gray-100">
+                <div class="bg-gray-100 rounded-lg overflow-hidden">
                     <img :src="product.images[selectedImageIndex]" :alt="product.name" class="w-full h-96 object-cover"
                         loading="lazy" />
                 </div>
 
                 <!-- Thumbnail Images -->
-                <div class="grid grid-cols-3 gap-4">
+                <div class="gap-4 grid grid-cols-3">
                     <button v-for="(image, index) in product.images" :key="index" @click="selectedImageIndex = index"
-                        class="rounded-lg overflow-hidden border-2 transition-all cursor-pointer" :class="selectedImageIndex === index
+                        class="border-2 rounded-lg overflow-hidden transition-all cursor-pointer" :class="selectedImageIndex === index
                             ? 'border-primary-500'
                             : 'border-gray-200 hover:border-gray-300'
                             ">
@@ -65,10 +65,10 @@ const totalPrice = computed(() => {
             <div class="space-y-6">
                 <!-- Title and Price -->
                 <div>
-                    <h1 class="text-3xl font-bold mb-2 capitalize">
+                    <h1 class="mb-2 font-bold text-3xl capitalize">
                         {{ product.name }}
                     </h1>
-                    <p class="text-2xl font-bold text-primary-600">
+                    <p class="font-bold text-primary-600 text-2xl">
                         {{ FormatCurrency(product.price) }}
                     </p>
                 </div>
@@ -82,7 +82,7 @@ const totalPrice = computed(() => {
 
                 <!-- Description -->
                 <div>
-                    <h2 class="text-lg font-semibold mb-2">Descripción</h2>
+                    <h2 class="mb-2 font-semibold text-lg">Descripción</h2>
                     <p class="leading-relaxed">
                         {{ product.description }}
                     </p>
@@ -92,7 +92,7 @@ const totalPrice = computed(() => {
 
                 <!-- Quantity Selector -->
                 <div>
-                    <h3 class="text-sm font-medium text-gray-900 mb-3">Cantidad</h3>
+                    <h3 class="mb-3 font-medium text-gray-900 text-sm">Cantidad</h3>
                     <div class="flex items-center space-x-4">
                         <div class="flex items-center border border-gray-300 rounded-lg">
                             <UButton icon="i-lucide-minus" color="neutral" variant="ghost" @click="decreaseQuantity"
@@ -100,7 +100,7 @@ const totalPrice = computed(() => {
                             <span class="px-4 py-2 font-semibold">{{ quantity }}</span>
                             <UButton icon="i-lucide-plus" color="neutral" variant="ghost" @click="increaseQuantity" />
                         </div>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-gray-500 text-sm">
                             Total: {{ FormatCurrency(totalPrice) }}
                         </p>
                     </div>
@@ -123,7 +123,7 @@ const totalPrice = computed(() => {
 
         <!-- Related Products Section (optional) -->
         <div v-if="product" class="mt-16">
-            <h2 class="text-2xl font-bold text-gray-500 mb-6">
+            <h2 class="mb-6 font-bold text-gray-500 text-2xl">
                 Productos relacionados
             </h2>
             <LazyProductsSuggestions hydrate-on-visible :slug="slug" />

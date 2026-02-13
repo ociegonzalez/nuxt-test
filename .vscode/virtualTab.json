@@ -1,0 +1,14 @@
+[
+  {
+    "id": "builtin_group_id",
+    "name": "Currently Open Files",
+    "files": [
+      "server/api/admin/product/index.post.ts",
+      "app/composables/admin/AdminProduct.ts",
+      "app/pages/dashboard/product/[id].vue",
+      "shared/utils/file-upload.ts"
+    ],
+    "builtIn": true,
+    "bookmarks": {}
+  }
+]

@@ -1,12 +1,12 @@
 <template>
   <div class="space-y-6">
     <!-- Header with Action Button -->
-    <div class="flex items-center justify-between">
+    <div class="flex justify-between items-center">
       <div>
-        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
+        <h1 class="font-bold text-gray-900 dark:text-white text-3xl">
           Productos
         </h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-2">
+        <p class="mt-2 text-gray-600 dark:text-gray-400">
           Gestiona y organiza tu catálogo de productos
         </p>
       </div>
@@ -32,8 +32,6 @@
 <script setup lang="ts">
 import { h, resolveComponent } from "vue";
 import type { TableColumn } from "@nuxt/ui";
-import { FormatCurrency } from "~~/shared/util/format-currency";
-import { dayMonthYearFormat } from "~~/shared/util/day-formater";
 
 const { productos, currentPage, total, perPage } = await usePaginatedProducts();
 

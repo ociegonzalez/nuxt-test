@@ -6,4 +6,6 @@ export interface IProduct {
     price: number
     images: string[]
     tags: string[]
+    createdAt?: string
+    updatedAt?: string
 }

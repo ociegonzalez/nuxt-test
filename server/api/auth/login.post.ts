@@ -37,7 +37,8 @@ export default defineEventHandler(async (event) => {
   const isPasswordValid = bcrypt.compareSync(password, user.password);
 
   await setUserSession(event, {
-    user: userSession
+    user: userSession,
+    loggedInAt: new Date(),
   });
 
   if (!isPasswordValid)

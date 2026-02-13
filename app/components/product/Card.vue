@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {FormatCurrency} from "#shared/util/format-currency";
+import {FormatCurrency} from "~~/shared/utils/format-currency";
 
 defineProps<{
   product: IProduct;
@@ -11,17 +11,17 @@ defineProps<{
     <img
         :src="product.images[0]"
         alt="Product Image"
-        class="w-full h-52 object-cover rounded-md"
+        class="rounded-md w-full h-52 object-cover"
     />
 
     <div class="mt-4">
-      <h3 class="text-lg font-bold">{{ product.name }}</h3>
-      <p class="text-sm text-gray-500">{{ product.description }}</p>
+      <h3 class="font-bold text-lg">{{ product.name }}</h3>
+      <p class="text-gray-500 text-sm">{{ product.description }}</p>
     </div>
 
     <template #footer>
-      <div class="flex items-center justify-between">
-        <p class="text-sm text-gray-500">{{ FormatCurrency(product.price) }}</p>
+      <div class="flex justify-between items-center">
+        <p class="text-gray-500 text-sm">{{ FormatCurrency(product.price) }}</p>
         <UButton
             :to="`/product/${product.slug}`"
             color="primary"
