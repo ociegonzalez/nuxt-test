@@ -7,30 +7,27 @@ const bodySchema = z.object({
   price: z.number().min(0),
   images: z.array(z.string()).min(0),
   tags: z.array(z.string()).min(0),
-})
+});
 
-export default defineEventHandler(async(event) => {
-
+export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, "id") as string;
 
-  const formData = await readMultipartFormData(event)
+  const formData = await readMultipartFormData(event);
 
   if (!formData || formData.length === 0) {
     throw createError({
       statusCode: 400,
       statusMessage: "Bad Request",
       message: `There's no data in the body`,
-    });    
+    });
   }
 
-  let dataString = '';
+  let dataString = "";
 
   for (const part of formData) {
-    if (part.name === 'data' && part.data) {
-      dataString = part.data.toString('utf-8');
+    if (part.name === "data" && part.data) {
+      dataString = part.data.toString("utf-8");
     }
-
-
   }
 
   const body = bodySchema.safeParse(JSON.parse(dataString));
@@ -40,7 +37,7 @@ export default defineEventHandler(async(event) => {
       statusCode: 400,
       statusMessage: "Bad Request",
       message: `Check the bodyof the request`,
-      data: body.error
+      data: body.error,
     });
   }
 
@@ -56,16 +53,16 @@ export default defineEventHandler(async(event) => {
       message: `Product with id ${id} not found`,
     });
 
-    const updatedProduct = await prisma.product.update({
-      where: {
-        id: +id,
-      },
-      data: body.data,
-    });
+  const updatedProduct = await prisma.product.update({
+    where: {
+      id: +id,
+    },
+    data: body.data,
+  });
 
   return {
-    message: 'Product updated',
+    message: "Product updated",
     product: updatedProduct,
-    files: []
-  }
-})
+    files: [],
+  };
+});

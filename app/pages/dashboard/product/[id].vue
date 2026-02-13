@@ -203,6 +203,7 @@
               type="file"
               multiple
               id="product-images"
+              @change="handleFilesChange($event)"
               rows="4"
               :class="[
                 'block w-full rounded-md bg-white px-3 py-2 shadow-sm focus:outline-none dark:bg-gray-900 dark:text-gray-100',
@@ -279,11 +280,14 @@
 </template>
 
 <script lang="ts" setup>
+import { f } from "vue-router/dist/router-CWoNjPRp.mjs";
 import { z } from "zod";
 
 const router = useRouter();
 const route = useRoute();
 const toast = useToast();
+
+const filesToUpload = ref<File[]>([]);
 
 const query = route.query.message as string;
 
@@ -367,7 +371,10 @@ const handleSubmit = async () => {
 
   console.log({ newProduct: newProduct.value });
 
-  const producto = await createOrUpdate(newProduct.value);
+  const producto = await createOrUpdate(
+    newProduct.value,
+    filesToUpload.value.length > 0 ? filesToUpload.value : undefined,
+  );
 
   if (isCreating.value) {
     router.replace(
@@ -393,6 +400,14 @@ const handleSubmit = async () => {
 
 const handleCancel = () => {
   navigateTo("/dashboard/products");
+};
+
+const handleFilesChange = (event: Event) => {
+  const files = (event.target as HTMLInputElement).files;
+
+  if (!files) return;
+
+  filesToUpload.value = Array.from(files);
 };
 
 watch(

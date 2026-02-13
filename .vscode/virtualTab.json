@@ -3,9 +3,9 @@
     "id": "builtin_group_id",
     "name": "Currently Open Files",
     "files": [
-      "server/api/admin/product/index.post.ts",
-      "app/composables/admin/AdminProduct.ts",
       "app/pages/dashboard/product/[id].vue",
+      "app/composables/admin/AdminProduct.ts",
+      "server/api/admin/product/[id].patch.ts",
       "shared/utils/file-upload.ts"
     ],
     "builtIn": true,
